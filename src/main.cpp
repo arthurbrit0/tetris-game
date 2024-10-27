@@ -10,14 +10,14 @@ int main() {
     SetTargetFPS(60);                    // setando o fps padrão da janela para 60
 
     Grid grid = Grid();                  // criando a grid criada no header Grid
-    grid.Print();
+    grid.Print();                        // printando os valores numericos de cada celula do grid no console
 
     TBlock block = TBlock();
     while(WindowShouldClose() == false) { // loop para, enquanto esc não for pressionado ou o botão de fechar não for pressionado, a janela continuará funcionando
-        BeginDrawing();
-        ClearBackground(darkBlue);
-        grid.Draw();
-        block.Draw();
+        BeginDrawing();                   // função do raylib para começar o desenho
+        ClearBackground(darkBlue);        // definindo o fundo como azul escuro
+        grid.Draw();                      // desenhando o grid
+        block.Draw();                     // desenhando o bloco
 
         EndDrawing();
     };

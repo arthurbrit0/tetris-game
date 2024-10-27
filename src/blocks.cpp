@@ -1,9 +1,9 @@
 #include "block.h"
 #include "position.h"
 
-class LBlock : public Block{
+class LBlock : public Block{ // criando uma classe que herda da classe Block
     public:
-        LBlock(){
+        LBlock(){   // o método construtor dessa classe definira o id como 1, e criara um vetor de pixels para cada estado de rotacao
             id = 1;
             cells[0] = {Position(0,2) , Position(1,0), Position(1,1), Position(1,2)};
             cells[1] = {Position(0,1) , Position(1,1), Position(2,1), Position(2,2)};
@@ -11,6 +11,7 @@ class LBlock : public Block{
             cells[3] = {Position(0,0) , Position(0,1), Position(1,1), Position(2,1)};
         }
 };
+// mesma coisa para o restante dos blocos
 class JBlock : public Block{
     public:
         JBlock(){
