@@ -30,16 +30,16 @@ void Grid::Print(){                                          // implementando o 
 
 
 void Grid::Draw(){
-    for(int row = 0; row < numRows; row++) {
+    for(int row = 0; row < numRows; row++) {                 // iterando sobre todos os pixels do grid
         for(int column = 0; column < numCols; column++) {
-            int cellValue = grid[row][column];
+            int cellValue = grid[row][column];               // pegamos o valor presente na celula do grid e desenhamos um quadrado com a cor do seu id
             DrawRectangle(column*cellSize+1, row*cellSize+1, cellSize-1, cellSize-1, colors[cellValue]);
         }
     }
 };
 
-bool Grid::IsCellOutside(int row, int column){
-    if(row >= 0 && row < numRows && column >=0 && column < numCols) {
+bool Grid::IsCellOutside(int row, int column){                              // função para verificar se alguma cell está fora do grid
+    if(row >= 0 && row < numRows && column >=0 && column < numCols) {       
         return false;
     }
     return true;
@@ -51,4 +51,41 @@ bool Grid::IsCellEmpty(int row, int column)
         return true;
     };
     return false;
+}
+int Grid::ClearFullRows()
+{
+    int completed = 0;                                  // inicializamos a variavel completed como 0, pois, inicialmente, nao ha linhas totalmente preenchidas
+    for(int row = numRows - 1; row >= 0; row--){        // vamos percorrendo as linhas, da ultima ate o topo
+        if(isRowFull(row))                              // se a linha estiver preenchida,
+        {
+            ClearRow(row);                              // limpamos ela (definimos todos os valores como 0)
+            completed++;                                // incrementamos o valor de completed em 1
+        } else if(completed > 0){                       // se a linha não estiver cheia,
+            MoveRowDown(row, completed);                // movemos essa linha para baixo de acordo com a quantidade de linhas ja completadas
+        }
+    };
+    return completed;                                   // retornamos a quantidade de linhas completadas, que servirá como pontuação
+};
+
+bool Grid::isRowFull(int row)
+{
+    for(int column = 0; column < numCols; column++){
+        if(grid[row][column] == 0){
+            return false;
+        }
+    }
+    return true;
+};
+
+void Grid::ClearRow(int row) {
+    for(int column = 0; column < numCols; column++){
+        grid[row][column] = 0;
+    };
+};
+
+void Grid::MoveRowDown(int row, int numRows) {
+    for(int column = 0; column < numCols; column++){
+        grid[row + numRows][column] = grid[row][column];
+        grid[row][column] = 0;
+    };
 };
