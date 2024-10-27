@@ -51,22 +51,23 @@ void Game::HandleInput(){
 
 void Game::MoveBlockLeft(){
     currentBlock.Move(0,-1);
-    if(isBlockOutside()){
+    if(isBlockOutside() || BlockFits() == false){
         currentBlock.Move(0,1);
     }
 };
 
 void Game::MoveBlockRight(){
     currentBlock.Move(0,1);
-    if(isBlockOutside()){
+    if(isBlockOutside() || BlockFits() == false){
         currentBlock.Move(0,-1);
     }
 };
 
 void Game::MoveBlockDown(){
     currentBlock.Move(1,0);
-    if(isBlockOutside()){
+    if(isBlockOutside() || BlockFits() == false){
         currentBlock.Move(-1,0);
+        LockBlock();
     }
 }
 bool Game::isBlockOutside()
@@ -85,4 +86,22 @@ void Game::RotateBlock(){
     if(isBlockOutside()){
         currentBlock.UndoRotation();
     }
+}
+void Game::LockBlock() {
+    std::vector<Position> tiles = currentBlock.GetCellPositions();
+    for(Position item : tiles){
+        grid.grid[item.row][item.column] = currentBlock.id;
+    }
+    currentBlock = nextBlock;
+    nextBlock = GetRandomBlock();
+}
+bool Game::BlockFits()
+{
+    std::vector<Position> tiles = currentBlock.GetCellPositions();
+    for(Position item : tiles){
+        if(grid.IsCellEmpty(item.row, item.column) == false ){ // verificando se as posicoes do grid que o bloco passa a ocupar estao livres ou nao
+            return false;                                      // se alguma posicao ja estiver ocupada, quer dizer que o bloco não pode encaixar ali
+        };
+    }
+    return true;
 };

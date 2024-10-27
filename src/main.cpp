@@ -3,6 +3,17 @@
 
 // usaremos a biblioteca raylib para os graficos
 
+double lastUpdateTime = 0;
+
+bool EventTriggered(double interval){           // função para setar o intervalo de 0.2 segundos para a função MoveBlockDown
+    double currentTime = GetTime();
+    if(currentTime - lastUpdateTime >= interval){   // caso não usassemos essa função, a função MoveBlockDown seria executada 60x/s (o framerate está definido como 60 fps)
+        lastUpdateTime = currentTime;
+        return true;
+    }
+    return false;
+}
+
 int main() {
     Color darkBlue = {44, 44, 127, 255}; // definindo a cor do plano de fundo da janela
     InitWindow(300, 600, "Tetris");      // inicializando a janela com 300x600 e o titulo tetris
@@ -13,6 +24,9 @@ int main() {
     
     while(WindowShouldClose() == false) { // loop para, enquanto esc não for pressionado ou o botão de fechar não for pressionado, a janela continuará funcionando
         game.HandleInput();
+        if(EventTriggered(0.2)){
+            game.MoveBlockDown();
+        }
         BeginDrawing();                   // função do raylib para começar o desenho
         ClearBackground(darkBlue);        // definindo o fundo como azul escuro
 

@@ -8,7 +8,7 @@ CXXFLAGS = -Wall -g
 LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 # Source files
-SRC = ./src/main.cpp ./src/grid.cpp ./src/block.cpp ./src/position.cpp ./src/colors.cpp ./src/game.cpp
+SRC = ./src/main.cpp ./src/grid.cpp ./src/block.cpp ./src/position.cpp ./src/colors.cpp ./src/game.cpp ./src/blocks.cpp
 
 # Output executable
 OUT = main
