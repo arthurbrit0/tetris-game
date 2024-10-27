@@ -1,6 +1,5 @@
-#include "grid.h"
-#include "blocks.cpp"
 #include <raylib.h>
+#include "game.h"
 
 // usaremos a biblioteca raylib para os graficos
 
@@ -9,15 +8,15 @@ int main() {
     InitWindow(300, 600, "Tetris");      // inicializando a janela com 300x600 e o titulo tetris
     SetTargetFPS(60);                    // setando o fps padrão da janela para 60
 
-    Grid grid = Grid();                  // criando a grid criada no header Grid
-    grid.Print();                        // printando os valores numericos de cada celula do grid no console
 
-    TBlock block = TBlock();
+    Game game = Game();
+    
     while(WindowShouldClose() == false) { // loop para, enquanto esc não for pressionado ou o botão de fechar não for pressionado, a janela continuará funcionando
+        game.HandleInput();
         BeginDrawing();                   // função do raylib para começar o desenho
         ClearBackground(darkBlue);        // definindo o fundo como azul escuro
-        grid.Draw();                      // desenhando o grid
-        block.Draw();                     // desenhando o bloco
+
+        game.Draw();                      // método draw do game desenhará o grid e os blocos, tanto atual como o próximo
 
         EndDrawing();
     };
