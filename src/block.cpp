@@ -6,7 +6,7 @@ Block::Block(){                 // implementando o construtor da classe block
     colors = GetCellColors();   // as cores virão do método GetCellColors
     rowOffset = 0;
     columnOffset = 0;
-}
+};
 
 void Block::Draw(){
     std::vector<Position> tiles = GetCellPositions();
@@ -18,7 +18,7 @@ void Block::Draw(){
 void Block::Move(int rows, int columns){    // implementando o método Move, que recebe como parâmetros o número de linhas e colunas que deverão ser movidas
     rowOffset += rows;                      // adicionando ao rowOffset o n de linhas que o bloco sera movido
     columnOffset += columns;                // adicionando ao columnOffset o n de colunas que o bloco sera movido
-}
+};
 
 std::vector<Position> Block::GetCellPositions(){        // implementando o método GetCellPositions, que retornará um vetor do tipo Position
     std::vector<Position> tiles = cells[rotationState]; // definimos os pixels atuais, pegando o objeto cells e pegando o vetor de pixels correspndente ao rotationState atual
@@ -30,4 +30,18 @@ std::vector<Position> Block::GetCellPositions(){        // implementando o méto
     }
 
     return movedTiles;
-}
+};
+
+void Block::Rotate() {
+    rotationState++;
+    if(rotationState == (int)cells.size()){
+        rotationState = 0;
+    }
+};
+
+void Block::UndoRotation() {
+    rotationState--;
+    if(rotationState == -1){
+        rotationState = cells.size() - 1;
+    }
+};
