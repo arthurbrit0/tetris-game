@@ -6,6 +6,8 @@ Game::Game(){
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
+    gameOver = false;
+    gameScore = 0;
 };
 
 Block Game::GetRandomBlock(){
@@ -27,11 +29,27 @@ std::vector<Block> Game::GetAllBlocks(){
 
 void Game::Draw(){
     grid.Draw();
-    currentBlock.Draw();
+    currentBlock.Draw(11, 11);
+    switch(nextBlock.id){
+        case 3:
+            nextBlock.Draw(255, 290);
+            break;
+        case 4:
+            nextBlock.Draw(255, 280);
+            break;
+        default:
+            nextBlock.Draw(270, 270);
+            break;
+    }
 };
 
 void Game::HandleInput(){
     int keyPressed = GetKeyPressed();
+
+    if(gameOver && keyPressed != 0){
+        gameOver = false;
+        Reset();
+    }
 
     switch(keyPressed){
         case KEY_LEFT:
@@ -42,6 +60,7 @@ void Game::HandleInput(){
             break;
         case KEY_DOWN:
             MoveBlockDown();
+            UpdateScore(0, 1);
             break;
         case KEY_UP:
             RotateBlock();
@@ -50,24 +69,30 @@ void Game::HandleInput(){
 }
 
 void Game::MoveBlockLeft(){
-    currentBlock.Move(0,-1);
-    if(isBlockOutside() || BlockFits() == false){
-        currentBlock.Move(0,1);
+    if(!gameOver){
+        currentBlock.Move(0,-1);
+        if(isBlockOutside() || BlockFits() == false){
+            currentBlock.Move(0,1);
+        }
     }
 };
 
 void Game::MoveBlockRight(){
-    currentBlock.Move(0,1);
-    if(isBlockOutside() || BlockFits() == false){
-        currentBlock.Move(0,-1);
+    if(!gameOver){
+        currentBlock.Move(0,1);
+        if(isBlockOutside() || BlockFits() == false){
+            currentBlock.Move(0,-1);
+        }
     }
 };
 
 void Game::MoveBlockDown(){
-    currentBlock.Move(1,0);
-    if(isBlockOutside() || BlockFits() == false){
-        currentBlock.Move(-1,0);
-        LockBlock();
+    if(!gameOver){
+        currentBlock.Move(1,0);
+        if(isBlockOutside() || BlockFits() == false){
+            currentBlock.Move(-1,0);
+            LockBlock();
+        }
     }
 }
 bool Game::isBlockOutside()
@@ -93,8 +118,12 @@ void Game::LockBlock() {
         grid.grid[item.row][item.column] = currentBlock.id;
     }
     currentBlock = nextBlock;
+    if(BlockFits() == false){
+        gameOver = true;
+    }
     nextBlock = GetRandomBlock();
-    grid.ClearFullRows();
+    int rowsCleared = grid.ClearFullRows();
+    UpdateScore(rowsCleared, 0);
 }
 bool Game::BlockFits()
 {
@@ -105,4 +134,28 @@ bool Game::BlockFits()
         };
     }
     return true;
+}
+void Game::Reset() {
+    grid.Initialize();
+    blocks = GetAllBlocks();
+    currentBlock = GetRandomBlock();
+    nextBlock = GetRandomBlock();
+    gameScore = 0;
+}
+void Game::UpdateScore(int linesCleared, int moveDownPoints) {
+    switch(linesCleared){
+        case 1:
+            gameScore += 100;
+            break;
+        case 2:
+            gameScore += 300;
+            break;
+        case 3:
+            gameScore += 500;
+            break;
+        default:
+            break;
+    }
+
+    gameScore += moveDownPoints;
 };

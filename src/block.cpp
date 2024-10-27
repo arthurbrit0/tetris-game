@@ -8,10 +8,10 @@ Block::Block(){                 // implementando o construtor da classe block
     columnOffset = 0;
 };
 
-void Block::Draw(){
+void Block::Draw(int offsetX, int offsetY){
     std::vector<Position> tiles = GetCellPositions();
     for(Position item: tiles) {                             // para cada pixel no vetor de posições atual,
-        DrawRectangle(item.column * cellSize + 1, item.row * cellSize + 1, cellSize - 1, cellSize - 1, colors[id]);     // desenharemos o bloco correspondente ao rotationState
+        DrawRectangle(item.column * cellSize + offsetX, item.row * cellSize + offsetY, cellSize - 1, cellSize - 1, colors[id]);     // desenharemos o bloco correspondente ao rotationState
     }
 };
 

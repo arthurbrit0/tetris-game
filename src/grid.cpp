@@ -33,7 +33,7 @@ void Grid::Draw(){
     for(int row = 0; row < numRows; row++) {                 // iterando sobre todos os pixels do grid
         for(int column = 0; column < numCols; column++) {
             int cellValue = grid[row][column];               // pegamos o valor presente na celula do grid e desenhamos um quadrado com a cor do seu id
-            DrawRectangle(column*cellSize+1, row*cellSize+1, cellSize-1, cellSize-1, colors[cellValue]);
+            DrawRectangle(column*cellSize+11, row*cellSize+11, cellSize-1, cellSize-1, colors[cellValue]);
         }
     }
 };

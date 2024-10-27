@@ -7,7 +7,7 @@
 class Block {           // header que definira a classe dos blocos
     public:
         Block();        // assinando o metodo construtor,
-        void Draw();    // o método Draw,
+        void Draw(int offsetX, int offsetY);    // o método Draw,
         void Move(int rows, int columns);
         std::vector<Position> GetCellPositions();
         int id;                                         // o atributo id do bloco
